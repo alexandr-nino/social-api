@@ -17,7 +17,7 @@ class VK(object):
         res=json.loads(urllib2.urlopen(url).read())
         if res.has_key("error"):
             return False,{'error_code': res["error"]["error_code"], 'error_msg': res["error"]["error_msg"]}
-        return 1,res["response"]
+        return True,res["response"]
 
 
 
