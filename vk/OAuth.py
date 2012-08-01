@@ -7,7 +7,7 @@ from PyQt4 import QtWebKit,QtGui,QtCore
 
 class vk_OAuth(QtGui.QDialog):
     def __init__(self,auth_page=None,parent=None):
-        super(C_OAuthWindow,self).__init__(parent)
+        super(vk_OAuth,self).__init__(parent)
         self.resize(640,480)
 
         self.web_view = QtWebKit.QWebView(self)
