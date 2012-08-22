@@ -6,18 +6,21 @@ import json,urllib2
 
 class VK(object):
     def __init__(self,app,uid,token):
-            self.app=app
-            self.token=token
-            self.uid=uid
-
+        self.app=app
+        self.token=token
+        self.uid=uid
+        self.error={}
+        self.result={}
 
 
     def get(self,method,**kwargs):
         url = self.makeUrl(method,**kwargs)
         res=json.loads(urllib2.urlopen(url).read())
         if res.has_key("error"):
-            return False,{'error_code': res["error"]["error_code"], 'error_msg': res["error"]["error_msg"]}
-        return True,res["response"]
+            self.error=res
+            return False
+        self.result=res["response"]
+        return True
 
 
 
