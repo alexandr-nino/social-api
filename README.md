@@ -1,4 +1,42 @@
-social-api
-==========
+<table border=0 style='width:25%;'>
+ <tr>
+ <td rowspan=5 width=64 height=64>
+ <a href="http://vk.com/id9547340" title="Alexandr Molofeev">
+ <img width='128' height='128' src="http://cs9923.userapi.com/u6941402/-14/y_129a0a82.jpg" alt="Alexandr Molofeev"/>
+ </a>
+ </td>
+ <td>&nbsp</td>
+</tr>
 
-social-api
+<tr>
+ <td>Python VK.com API</td>
+</tr>
+<tr>
+ <td><a href="http://vk.com/id9547340" title="Alexandr Molofeev">Александр Молофеев</a></td>
+</tr>
+<tr>
+ <td><a href="mailto:alexandr.nino@gmail.com" title="alexandr.nino@gmail.com">alexandr.nino@gmail.com</a></td>
+</tr>
+
+</table>
+
+
+
+
+
+ <strong>Исспользование</strong><br>
+ <blockquote>
+ <code><font size="2" face="Courier New" color="black"><ol class="python" style="font-family:monospace;"><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><font color="#808080"><i># -*- coding: u8 -*-</i></font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">__author__ = <font color="#483d8b">'Sane4eG'</font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><font color="#ff7700"><b>from</b></font> vk <font color="#ff7700"><b>import</b></font> VK,OAuth</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><font color="#ff7700"><b>from</b></font> PyQt4 <font color="#ff7700"><b>import</b></font> QtGui &nbsp;<font color="#808080"><i># for QWebKit</i></font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">app = QtGui.<span style="color: black;">QApplication</span><span style="color: black;">(</span><span style="color: black;">[</span><span style="color: black;">]</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">app_id = <font color="#ff4500">2951602</font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">state,access = OAuth.<span style="color: black;">vk_OAuth</span><span style="color: black;">(</span> &nbsp; VK.<span style="color: black;">GetPopupUrl</span><span style="color: black;">(</span>app_id ,scope=<span style="color: black;">[</span><font color="#483d8b">'friends'</font>,<font color="#483d8b">'wall'</font>,<font color="#483d8b">'photo'</font><span style="color: black;">]</span><span style="color: black;">)</span> <span style="color: black;">)</span>.<span style="color: black;">run</span><span style="color: black;">(</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><font color="#ff7700"><b>if</b></font> state:</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; vk = VK<span style="color: black;">(</span> app_id, access<span style="color: black;">[</span><font color="#483d8b">'user_id'</font><span style="color: black;">]</span>,access<span style="color: black;">[</span><font color="#483d8b">'access_token'</font><span style="color: black;">]</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; <font color="#ff7700"><b>if</b></font> vk.<span style="color: black;">friends</span>.<span style="color: black;">getOnline</span><span style="color: black;">(</span><span style="color: black;">)</span>:</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>print</b></font> vk.<span style="color: black;">get_result</span><span style="color: black;">(</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; <font color="#ff7700"><b>else</b></font>:</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>print</b></font> vk.<span style="color: black;">get_error</span><span style="color: black;">(</span><span style="color: black;">)</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><font color="#ff7700"><b>else</b></font>:</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; <font color="#ff7700"><b>print</b></font> access <font color="#808080"><i># ERROR</i></font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; </div></li></ol></font></code> </blockquote>
+<br/><br/>
+
+
+<strong>v 0.1</strong><br/><br/>
+<ul>
+ <li>немного перебрал архитектуру ядра: теперь нет открытой возможности обращаться к&nbsp;методам vk api к&nbsp;которым юзер не&nbsp;дал доступ</li>
+ <li>организовал разнесение методов vk api по&nbsp;соответствующим классам, например обращение к&nbsp;методам взаимодействия с&nbsp;друзьями теперь выглядит так: 
+ <blockquote>
+ <code><font size="2" face="Courier New" color="black"><ol class="python" style="font-family:monospace;"><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>if</b></font> vk.<span style="color: black;">friends</span>.<span style="color: black;">get</span><span style="color: black;">(</span><span style="color: black;">)</span>: <font color="#808080"><i># or vk.friends.get(uid=123)</i></font></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>print</b></font> vk.<span style="color: black;">get_result</span><span style="color: black;">(</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>else</b></font>:</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <font color="#ff7700"><b>print</b></font> vk.<span style="color: black;">get_error</span><span style="color: black;">(</span><span style="color: black;">)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp; &nbsp; &nbsp; &nbsp; </div></li></ol></font></code> </blockquote>
+ </li>
+ <li>документация к&nbsp;методам api ссылается на&nbsp;оригинальное описание метода</li>
+ <li>более детальное описание пакета будет чуть позже</li>
+</ul><br/>______________________<br /><h6>Текст подготовлен в <a href="http://www.softcoder.ru/blogeditor/">Редакторе Блогов</a> от © SoftCoder.ru</h6>

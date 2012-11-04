@@ -1,3 +1,6 @@
+1.py
+*.idea/
+
 *.py[co]
 
 # Packages

@@ -4,27 +4,77 @@ __author__ = '_killed_'
 
 import json,urllib2
 
+PERMS={
+    1:None,#" 	Пользователь разрешил отправлять ему уведомления.",
+    2:'friends',# " 	Доступ к друзьям.",
+    4:None,#' 	Доступ к фотографиям.',
+    8:None,#' 	Доступ к аудиозаписям.',
+    16:None,#' 	Доступ к видеозаписям.',
+    32:None,#' 	Доступ к предложениям.',
+    64:None,#' 	Доступ к вопросам.',
+    128:None,#' 	Доступ к wiki-страницам.',
+    256:None,#' 	Добавление ссылки на приложение в меню слева.',
+    512:None,#' 	Добавление ссылки на приложение для быстрой публикации на стенах пользователей.',
+    1024:None,#' 	Доступ к статусам пользователя.',
+    2048:None,#' 	Доступ заметкам пользователя.',
+    4096:None,#' 	(для Desktop-приложений) Доступ к расширенным методам работы с сообщениями.',
+    8192:None,#' 	Доступ к обычным и расширенным методам работы со стеной.Внимание, данное право доступа недоступно для сайтов (игнорируется при попытке авторизации).',
+    32768:None,#' 	Доступ к функциям для работы с рекламным кабинетом.',
+    131072:None,#' 	Доступ к документам пользователя.',
+    262144:None,#' 	Доступ к группам пользователя.',
+    524288:None,#' 	Доступ к оповещениям об ответах пользователю.',
+    1048576:None,#' 	Доступ к статистике групп и приложений пользователя, администратором которых он является. '}
+    }
+from vk_friends import friends
+
+
 class VK(object):
+    """
+    base class for VK API
+    """
+
     def __init__(self,app,uid,token):
-        self.app=app
-        self.token=token
-        self.uid=uid
-        self.error={}
-        self.result={}
+        self.__app=app
+        self.__token=token
+        self.__uid=uid
+        self.__error={}
+        self.__result={}
+
+        if self.handler('getUserSettings',uid=self.__uid):
+            self.__perms = int(self.__result)
+            for permission in PERMS.keys():
+                if self.__perms&permission==permission and PERMS[permission]:
+                    setattr(self,PERMS[permission],eval(PERMS[permission]+"(self.handler)"))
+    def get_uid(self):
+        return self.__uid
+    def get_appid(self):
+        return self.__app
+    def get_error(self):
+        return self.__error
+    def get_result(self):
+        return self.__result
+    def get_perms(self):
+        return self.__perms
 
 
-    def get(self,method,**kwargs):
-        url = self.makeUrl(method,**kwargs)
+    def handler(self,method,**kwargs):
+        """
+        get response
+        """
+        url = self.__makeUrl(method,**kwargs)
         res=json.loads(urllib2.urlopen(url).read())
         if res.has_key("error"):
-            self.error=res
+            self.__error=res
             return False
-        self.result=res["response"]
+        self.__result=res["response"]
         return True
 
 
 
-    def makeUrl(self,method,**kwargs):
+    def __makeUrl(self,method,**kwargs):
+        """
+        generate request uri
+        """
         url="https://api.vk.com/method/{0}?{1}access_token={2}"
         data=""
         for item in kwargs.items():
@@ -32,11 +82,7 @@ class VK(object):
                 data+="{0}={1}&".format( item[0],",".join([str(i) for i in item[1]]) )
             else:
                 data+="{0}={1}&".format( item[0],item[1])
-        return url.format(method,data,self.token)
-
-
-
-
+        return url.format(method,data,self.__token)
 
     @staticmethod
     def GetPopupUrl(app_id=None,scope = [
@@ -58,6 +104,9 @@ class VK(object):
                                         "ads",# 	Доступ к расширенным методам работы с рекламным API.
                                         "offline"# 	Доступ к API в любое время со стороннего сервера.
                                     ]):
+        """
+        http://vk.com/pages?oid=-1&p=%D0%9F%D1%80%D0%B0%D0%B2%D0%B0_%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0_%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B9
+        """
         if not app_id:
             raise ValueError,"API ID is not defined."
         if not scope or type(scope) not in [tuple,list]:
@@ -65,48 +114,6 @@ class VK(object):
 
         url="http://oauth.vk.com/authorize?client_id={0}&scope={1}&redirect_uri=http://oauth.vk.com/blank.html&display=popup&response_type=token"
         return url.format(app_id,",".join(scope))
-
-
-    @staticmethod
-    def GetToken(email,passw,app_id):
-
-        data={"email":email,"pass":passw}
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = httplib.HTTPSConnection("vk.com")
-        conn.request("POST","/login.php",urllib.urlencode(data),headers)
-        resp = conn.getresponse()
-        conn.close()
-        head = resp.getheader("Set-Cookie")
-        remixsid=re.findall(r'remixsid=([^;]+)',head)[0]
-        headers={"Cookie":"remixsid="+remixsid+";"}
-        cookie=headers
-
-        #url = "http://oauth.vk.com/authorize?client_id={0}&scope=notify,friends,photos,audio,video,docs,notes,pages,offers,questions,wall,groups,messages,notifications,stats,ads,offline&redirect_uri=http://oauth.vk.com/blank.html&display=popup&response_type=token"
-        data={"client_id":app_id,
-              "scope":"notify,friends,photos,audio,video,docs,notes,pages,offers,questions,wall,groups,messages,notifications,stats,ads,offline",
-              "redirect_uri":"http://oauth.vk.com/blank.html",
-              "display":"popup",
-              "response_type":"token"
-        }
-
-        headers.update(cookie)
-
-        conn=httplib.HTTPSConnection("oauth.vk.com")
-        conn.request("GET",url="/authorize?"+urllib.unquote_plus(urllib.urlencode(data)),body=None,headers=headers)
-        r = conn.getresponse()
-        page=r.read().decode("cp1251")
-
-
-        url=re.findall(r'location.href = "([^"]+)',page)[0]
-
-        conn.request("GET","/"+url.split("/")[-1],body=None,headers=headers)
-        r=conn.getresponse()
-        conn.close()
-        uri=r.getheader("location").split("#")[-1]
-        data = uri.split("&")
-        data=dict([i.split("=") for i in data])
-        return data["access_token"],data["user_id"]
-
 
 
 

@@ -1,1 +1,0 @@
-api sceleton for yandex.Direct only

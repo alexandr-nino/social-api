@@ -13,6 +13,7 @@ class vk_OAuth(QtGui.QDialog):
         self.web_view = QtWebKit.QWebView(self)
         self.web_view.load(QtCore.QUrl(auth_page))
         self.connect(self.web_view,QtCore.SIGNAL("loadFinished(bool)"),self.redirectEvent)
+
     def run(self):
         if self.exec_():
             return True,self.result
