@@ -20,13 +20,14 @@ PERMS={
     4096:None,#' 	(для Desktop-приложений) Доступ к расширенным методам работы с сообщениями.',
     8192:None,#' 	Доступ к обычным и расширенным методам работы со стеной.Внимание, данное право доступа недоступно для сайтов (игнорируется при попытке авторизации).',
     32768:None,#' 	Доступ к функциям для работы с рекламным кабинетом.',
-    131072:None,#' 	Доступ к документам пользователя.',
+    131072:'docs',#' 	Доступ к документам пользователя.',
     262144:None,#' 	Доступ к группам пользователя.',
     524288:None,#' 	Доступ к оповещениям об ответах пользователю.',
     1048576:None,#' 	Доступ к статистике групп и приложений пользователя, администратором которых он является. '}
     }
 from vk_friends import friends
 from vk_video import video
+from vk_documents import docs
 
 
 class VK(object):
@@ -46,28 +47,49 @@ class VK(object):
             for permission in PERMS.keys():
                 if self.__perms&permission==permission and PERMS[permission]:
                     setattr(self,PERMS[permission],eval(PERMS[permission]+"(self.handler)"))
+
     def get_uid(self):
+        """
+        return current user id
+                """
         return self.__uid
-    def get_appid(self):
+
+    def get_app_id(self):
+        """
+                return current appication id
+                """
         return self.__app
+
     def get_error(self):
+        """
+                return last error
+                """
         return self.__error
+
     def get_result(self):
+        """
+                return result
+                """
         return self.__result
+
     def get_perms(self):
+        """
+                return app permissions for current user
+                """
         return self.__perms
 
 
     def handler(self,method,**kwargs):
         """
-        get response
+        global request handler
+        :param method: str;
         """
         url = self.__makeUrl(method,**kwargs)
-        res=json.loads(urllib2.urlopen(url).read())
-        if res.has_key("error"):
-            self.__error=res
+        response=json.loads(urllib2.urlopen(url).read())
+        if "error" in response:
+            self.__error=response
             return False
-        self.__result=res["response"]
+        self.__result=response["response"]
         return True
 
 
@@ -75,6 +97,7 @@ class VK(object):
     def __makeUrl(self,method,**kwargs):
         """
         generate request uri
+        :param method: str
         """
         url="https://api.vk.com/method/{0}?{1}access_token={2}"
         data=""
@@ -106,6 +129,7 @@ class VK(object):
                                         "offline"# 	Доступ к API в любое время со стороннего сервера.
                                     ]):
         """
+        :param app_id: int
         http://vk.com/pages?oid=-1&p=%D0%9F%D1%80%D0%B0%D0%B2%D0%B0_%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0_%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B9
         """
         if not app_id:
