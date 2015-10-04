@@ -35,3 +35,9 @@ class friends(object):
         http://vk.com/pages?oid=-1&p=friends.areFriends
         """
         return self.vk_get('friends.areFriends', **kwargs)
+
+    def deleteList(self, **kwargs):
+        return self.vk_get('friends.deleteList', **kwargs)
+
+    def addList(self, **kwargs):
+        return self.vk_get('friends.addList', **kwargs)
